@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
   /// [説明]
   /// アプリのホーム画面クラス
   /// 静的クラスで設定される
-  /// 子クラスは fina　を使って終了すること
+  /// final でインスタンスを生成する感じか？
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -47,12 +47,16 @@ class MyHomePage extends StatefulWidget {
 
   /// [説明] ホーム画面のStateクラス
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // デモのカウンタ
+  // int _counter = 0;
+
+  // ファイルの名前
 
   /// [説明] カウンタのメイン処理
   /// @param    void
   /// @return   void
   void _incrementCounter() {
+    // デモのカウンタ
     // setState(() {
     //   // This call to setState tells the Flutter framework that something has
     //   // changed in this State, which causes it to rerun the build method below
@@ -63,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => EditPage()),
+      MaterialPageRoute(builder: (context) => EditPage("ぼくの夏休み")),
     );
   }
 
@@ -102,12 +106,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const Text(
               // textの文字列
-              'ボタンを押してください:',
+              'ボタンを押して作成',
             ),
             Text(
+              // デモのカウンタ
               // textのスタイル
-              '$_counter',
+              // '$_counter',
+              "Let's make it!!",
               style: Theme.of(context).textTheme.headline4,
+
+
             ),
           ],
         ),
