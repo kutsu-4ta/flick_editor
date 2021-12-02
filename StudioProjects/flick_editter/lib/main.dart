@@ -7,13 +7,13 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   // トップ画面
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         /// [explain]
         /// This is the theme of your application.
         /// Try running your application with "flutter run". You'll see the
@@ -32,10 +32,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
-  /// [説明]
-  /// アプリのホーム画面クラス
-  /// 静的クラスで設定される
-  /// final でインスタンスを生成する感じか？
+/// [説明]
+/// アプリのホーム画面クラス
+/// 静的クラスで設定される
+/// final でインスタンスを生成する感じか？
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -45,86 +45,57 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-  /// [説明] ホーム画面のStateクラス
+/// [説明] ホーム画面のStateクラス
 class _MyHomePageState extends State<MyHomePage> {
-  // デモのカウンタ
-  // int _counter = 0;
 
-  // ファイルの名前
-
-  /// [説明] カウンタのメイン処理
+  /// [説明] 編集画面へ遷移
   /// @param    void
   /// @return   void
-  void _incrementCounter() {
-    // デモのカウンタ
-    // setState(() {
-    //   // This call to setState tells the Flutter framework that something has
-    //   // changed in this State, which causes it to rerun the build method below
-    //   // so that the display can reflect the updated values. If we changed
-    //   // _counter without calling setState(), then the build method would not be
-    //   // called again, and so nothing would appear to happen.
-    //   _counter++;
-
+  void _toEditPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => EditPage("ぼくの夏休み")),
+      MaterialPageRoute(
+          builder: (context) => EditPage('Edit')        // NOTE:アローで書いた方がかっこいい笑
+      ),
     );
   }
 
+  final items = List<String>.generate(20, (index) => "$index");
+
   @override
   Widget build(BuildContext context) {
-    /// [説明] setStateが呼ばれるたびに走る.
-    /// _incrementCounter()によってインスタンス化される.
-    /// まずはこっちでウィジェットがビルドされるってことでいいと思う.
-
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-
-        title: Text(widget.title),
+        title: Text('My Library'),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              // textの文字列
-              'ボタンを押して作成',
-            ),
-            Text(
-              // デモのカウンタ
-              // textのスタイル
-              // '$_counter',
-              "Let's make it!!",
-              style: Theme.of(context).textTheme.headline4,
-
-
-            ),
-          ],
+      body: Container(
+        width: double.infinity,
+        // child:GridView.count(
+          // Create a grid with 2 columns. If you change the scrollDirection to
+          // horizontal, this produces 2 rows.
+          // crossAxisCount: 2,
+          // Generate 100 widgets that display their index in the List.
+        //   children: List.generate(100, (index) {
+        //     return Column(
+        //       children: <Widget>[
+        //         Expanded(
+        //           child: Image.asset('images/hashibirokou.jpg'),
+        //         ),
+        //         Text('Item $index',
+        //             style: Theme.of(context).textTheme.headline5),
+        //       ],
+        //     );
+        //   }),
+        // ),
+        child: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) => ListTile(      // HACK:やたらにアロー使うと見にくいか!?
+              title: Text('${items[index]}'),
+              // subtitle: Image.asset('images/hashibirokou.jpg'),
+              onTap:_toEditPage,
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
