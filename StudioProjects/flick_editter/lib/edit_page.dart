@@ -1,71 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
-class EditPage extends StatelessWidget {
-  // イニシャライザ
-  EditPage(this.post);
-  String post;
+// NOTE:編集画面,テキスト編集、画像配置実装する
+
+
+// HACK:処理を別ファイルに分けたい
+
+  class EditPage extends StatefulWidget {
+    @override
+    _EditPageState createState() => _EditPageState();
+  }
+
+class _EditPageState extends State<EditPage> {
+
+  Offset posImage = Offset(20,20);
+  Offset pos = Offset(50,50);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(post),
-        ),
-        body: Stack(
-          alignment: Alignment.bottomRight,
-          children: <Widget>[
-            SizedBox(
-              width: 400.0,
-              height: 400.0,
-              child: Container(
-                child:Image.asset('images/hashibirokou.jpg'),
-                color: Colors.black,
-              ),
+      appBar: AppBar(
+        title: Text("編集画面"),
+      ),
+      body: Container(
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        // 画像
+        children: <Widget>[
+          Positioned(
+            left: posImage.dx,
+            top: posImage.dy,
+            child: Draggable(
+              feedback: Container(width: 100.0, height: 100.0, child:Image.asset('images/hashibirokou.jpg')),
+              child:Container(width: 100.0, height: 100.0, child:Image.asset('images/hashibirokou.jpg')),
+              childWhenDragging: Container(),
+              onDraggableCanceled: (view, offset) {
+                setState(() {
+                  posImage = offset;
+                });
+              },
             ),
-            Positioned(
-              left: 60.0,
-              top: 60.0,
-              width: 100.0,
-              height: 100.0,
-              child: Container(
-                // color: Colors.green,
-              ),
+          ),
+          // 四角
+          Positioned(
+            left: pos.dx,
+            top: pos.dy,
+            child: Draggable(
+                feedback: Container(width: 100.0, height: 100.0, color: Colors.green[100]),
+                child:Container(width: 100.0, height: 100.0, color: Colors.green),
+              childWhenDragging: Container(),
+              onDraggableCanceled: (view, offset) {
+                  setState(() {
+                    pos = offset;
+                  });
+                },
             ),
-            Positioned(
-              left: 120.0,
-              top: 120.0,
-              width: 100.0,
-              height: 100.0,
-              child: Container(
-                // color: Colors.orange,
-              ),
-            ),
-            Positioned(
-              left: 100.0,
-              top: 100.0,
-              width: 300.0,
-              height: 300.0,
-              child: Container(
-                child: Text(
-                  'ハシビロコウ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 30,
-                    color: Theme.of(context).primaryColorLight,
-                  ),
-                ),
-                // color: Colors.blue,
-              ),
-            ),
-            Text(
-              'Test',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 40,
-                color: Theme.of(context).primaryColorDark,
-              ),
-            )
-          ],
-        ));
+          ),
+        ],
+      ),
+    ),
+    );
   }
 }
